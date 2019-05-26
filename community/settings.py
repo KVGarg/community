@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'django_distill',
+    'forms_testing',
 ]
 
 LOGGING = {

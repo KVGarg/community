@@ -1,7 +1,6 @@
 """
 Community URL configuration.
 """
-
 from django_distill import distill_url
 from django.conf.urls.static import static
 from django.conf import settings
@@ -73,156 +72,166 @@ def get_organization():
     for organization in Organization.objects.all():
         yield {'pk': organization.id}
 
+from forms_testing.views import TestingForm
+# from forms_testing.views import TestingAuth
 
 urlpatterns = [
-    distill_url(
-        r'^$', HomePageView.as_view(),
-        name='index',
-        distill_func=get_index,
-        distill_file='index.html',
-    ),
-    distill_url(
-        'info.txt', info,
-        name='index',
-        distill_func=get_index,
-        distill_file='info.txt',
-    ),
-    distill_url(
-        r'static/activity-data.json', activity_json,
-        name='activity_json',
-        distill_func=get_index,
-        distill_file='static/activity-data.json',
-    ),
-    distill_url(
-        r'activity/', TemplateView.as_view(template_name='activity.html'),
-        name='activity',
-        distill_func=get_index,
-        distill_file='activity/index.html',
-    ),
-    distill_url(
-        r'gci/tasks/rss.xml', gci_tasks_rss(),
-        name='gci-tasks-rss',
-        distill_func=get_index,
-        distill_file='gci/tasks/rss.xml',
-    ),
-    distill_url(
-        r'gci/', gci_index,
-        name='community-gci',
-        distill_func=get_index,
-        distill_file='gci/index.html',
-    ),
-    distill_url(
-        r'twitter/', twitter_index,
-        name='twitter',
-        distill_func=get_index,
-        distill_file='twitter/index.html',
-    ),
-    distill_url(
-        r'log/', log_index,
-        name='log',
-        distill_func=get_index,
-        distill_file='log/index.html',
-    ),
-    distill_url(
-        r'contributors/$', contributors_index,
-        name='community-data',
-        distill_func=get_index,
-        distill_file='contributors/index.html',
-    ),
-    distill_url(
-        r'meta-review/$', meta_review_index,
-        name='meta_review_data',
-        distill_func=get_index,
-        distill_file='meta-review/index.html',
-    ),
-    distill_url(
-        r'static/inactive-issues.json', inactive_issues_json,
-        name='inactive_issues_json',
-        distill_func=get_index,
-        distill_file='static/inactive-issues.json',
-    ),
-    distill_url(
-        r'openhub/$', openhub_index,
-        name='community-openhub',
-        distill_func=get_index,
-        distill_file='openhub/index.html',
-    ),
-    distill_url(
-        r'model/$', model_index,
-        name='community-model',
-        distill_func=get_index,
-        distill_file='model/index.html',
-    ),
-    distill_url(
-        r'model/openhub/outside_committers/$',
-        OutsideCommitterListView.as_view(),
-        name='outsidecommitters',
-        distill_func=get_index,
-    ),
-    distill_url(
-        r'model/openhub/outside_committer/(?P<pk>\d+)/$',
-        OutsideCommitterDetailView.as_view(),
-        name='outsidecommitter-detail',
-        distill_func=get_all_outsidecommitters,
-    ),
-    distill_url(
-        r'model/openhub/outside_projects/$',
-        OutsideProjectListView.as_view(),
-        name='outsideprojects',
-        distill_func=get_index,
-    ),
-    distill_url(
-        r'model/openhub/outside_project/(?P<pk>\d+)/$',
-        OutsideProjectDetailView.as_view(),
-        name='outsideproject-detail',
-        distill_func=get_all_outsideprojects,
-    ),
-    distill_url(
-        r'model/openhub/affiliated_committers/$',
-        AffiliatedCommitterListView.as_view(),
-        name='affiliatedcommitters',
-        distill_func=get_index,
-    ),
-    distill_url(
-        r'model/openhub/affiliated_committer/(?P<pk>\d+)/$',
-        AffiliatedCommitterDetailView.as_view(),
-        name='affiliatedcommitter-detail',
-        distill_func=get_all_affiliatedcommitters,
-    ),
-    distill_url(
-        r'model/openhub/portfolio_projects/$',
-        PortfolioProjectListView.as_view(),
-        name='portfolioprojects',
-        distill_func=get_index,
-    ),
-    distill_url(
-        r'model/openhub/portfolio_project/(?P<pk>\d+)/$',
-        PortfolioProjectDetailView.as_view(),
-        name='portfolioproject-detail',
-        distill_func=get_all_portfolioprojects,
-    ),
-    distill_url(
-        r'model/openhub/organization/$',
-        OrganizationListView.as_view(),
-        name='organization',
-        distill_func=get_index,
-    ),
-    distill_url(
-        r'model/openhub/org/(?P<pk>\d+)/$',
-        OrganizationDetailView.as_view(),
-        name='org-detail',
-        distill_func=get_organization,
-    ),
-    distill_url(
-        r'static/unassigned-issues.json', unassigned_issues_activity_json,
-        name='unassigned_issues_activity_json',
-        distill_func=get_index,
-        distill_file='static/unassigned-issues.json',
-    ),
-    distill_url(
-        r'gamification/$', gamification_index,
-        name='community-gamification',
-        distill_func=get_index,
-        distill_file='gamification/index.html',
-    ),
+    distill_url(r'testing/forms/', TestingForm.as_view(),
+                name='testing_form',
+                distill_func=get_index,
+                distill_file='forms_testing/index.html')
+    # distill_url(r'testing/auth/', TestingAuth.as_view(),
+    #             name='testing_form',
+    #             distill_func=get_index,
+    #             distill_file='auth/index.html')
+    # ,distill_url(
+    #     r'^$', HomePageView.as_view(),
+    #     name='index',
+    #     distill_func=get_index,
+    #     distill_file='index.html',
+    # ),
+    # distill_url(
+    #     'info.txt', info,
+    #     name='index',
+    #     distill_func=get_index,
+    #     distill_file='info.txt',
+    # ),
+    # distill_url(
+    #     r'static/activity-data.json', activity_json,
+    #     name='activity_json',
+    #     distill_func=get_index,
+    #     distill_file='static/activity-data.json',
+    # ),
+    # distill_url(
+    #     r'activity/', TemplateView.as_view(template_name='activity.html'),
+    #     name='activity',
+    #     distill_func=get_index,
+    #     distill_file='activity/index.html',
+    # ),
+    # distill_url(
+    #     r'gci/tasks/rss.xml', gci_tasks_rss(),
+    #     name='gci-tasks-rss',
+    #     distill_func=get_index,
+    #     distill_file='gci/tasks/rss.xml',
+    # ),
+    # distill_url(
+    #     r'gci/', gci_index,
+    #     name='community-gci',
+    #     distill_func=get_index,
+    #     distill_file='gci/index.html',
+    # ),
+    # distill_url(
+    #     r'twitter/', twitter_index,
+    #     name='twitter',
+    #     distill_func=get_index,
+    #     distill_file='twitter/index.html',
+    # ),
+    # distill_url(
+    #     r'log/', log_index,
+    #     name='log',
+    #     distill_func=get_index,
+    #     distill_file='log/index.html',
+    # ),
+    # distill_url(
+    #     r'contributors/$', contributors_index,
+    #     name='community-data',
+    #     distill_func=get_index,
+    #     distill_file='contributors/index.html',
+    # ),
+    # distill_url(
+    #     r'meta-review/$', meta_review_index,
+    #     name='meta_review_data',
+    #     distill_func=get_index,
+    #     distill_file='meta-review/index.html',
+    # ),
+    # distill_url(
+    #     r'static/inactive-issues.json', inactive_issues_json,
+    #     name='inactive_issues_json',
+    #     distill_func=get_index,
+    #     distill_file='static/inactive-issues.json',
+    # ),
+    # distill_url(
+    #     r'openhub/$', openhub_index,
+    #     name='community-openhub',
+    #     distill_func=get_index,
+    #     distill_file='openhub/index.html',
+    # ),
+    # distill_url(
+    #     r'model/$', model_index,
+    #     name='community-model',
+    #     distill_func=get_index,
+    #     distill_file='model/index.html',
+    # ),
+    # distill_url(
+    #     r'model/openhub/outside_committers/$',
+    #     OutsideCommitterListView.as_view(),
+    #     name='outsidecommitters',
+    #     distill_func=get_index,
+    # ),
+    # distill_url(
+    #     r'model/openhub/outside_committer/(?P<pk>\d+)/$',
+    #     OutsideCommitterDetailView.as_view(),
+    #     name='outsidecommitter-detail',
+    #     distill_func=get_all_outsidecommitters,
+    # ),
+    # distill_url(
+    #     r'model/openhub/outside_projects/$',
+    #     OutsideProjectListView.as_view(),
+    #     name='outsideprojects',
+    #     distill_func=get_index,
+    # ),
+    # distill_url(
+    #     r'model/openhub/outside_project/(?P<pk>\d+)/$',
+    #     OutsideProjectDetailView.as_view(),
+    #     name='outsideproject-detail',
+    #     distill_func=get_all_outsideprojects,
+    # ),
+    # distill_url(
+    #     r'model/openhub/affiliated_committers/$',
+    #     AffiliatedCommitterListView.as_view(),
+    #     name='affiliatedcommitters',
+    #     distill_func=get_index,
+    # ),
+    # distill_url(
+    #     r'model/openhub/affiliated_committer/(?P<pk>\d+)/$',
+    #     AffiliatedCommitterDetailView.as_view(),
+    #     name='affiliatedcommitter-detail',
+    #     distill_func=get_all_affiliatedcommitters,
+    # ),
+    # distill_url(
+    #     r'model/openhub/portfolio_projects/$',
+    #     PortfolioProjectListView.as_view(),
+    #     name='portfolioprojects',
+    #     distill_func=get_index,
+    # ),
+    # distill_url(
+    #     r'model/openhub/portfolio_project/(?P<pk>\d+)/$',
+    #     PortfolioProjectDetailView.as_view(),
+    #     name='portfolioproject-detail',
+    #     distill_func=get_all_portfolioprojects,
+    # ),
+    # distill_url(
+    #     r'model/openhub/organization/$',
+    #     OrganizationListView.as_view(),
+    #     name='organization',
+    #     distill_func=get_index,
+    # ),
+    # distill_url(
+    #     r'model/openhub/org/(?P<pk>\d+)/$',
+    #     OrganizationDetailView.as_view(),
+    #     name='org-detail',
+    #     distill_func=get_organization,
+    # ),
+    # distill_url(
+    #     r'static/unassigned-issues.json', unassigned_issues_activity_json,
+    #     name='unassigned_issues_activity_json',
+    #     distill_func=get_index,
+    #     distill_file='static/unassigned-issues.json',
+    # ),
+    # distill_url(
+    #     r'gamification/$', gamification_index,
+    #     name='community-gamification',
+    #     distill_func=get_index,
+    #     distill_file='gamification/index.html',
+    # ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
