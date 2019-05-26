@@ -1,7 +1,9 @@
 """
 Community URL configuration.
 """
-
+from django.conf.urls import url
+from django.contrib import admin
+from django.urls import include
 from django_distill import distill_url
 from django.conf.urls.static import static
 from django.conf import settings
@@ -75,6 +77,8 @@ def get_organization():
 
 
 urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^accounts/', include('allauth.urls')),
     distill_url(
         r'^$', HomePageView.as_view(),
         name='index',

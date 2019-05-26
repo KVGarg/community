@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import sys
 
+import dj_database_url
+
 from .filters import NoDebugFilter
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -28,7 +30,8 @@ SECRET_KEY = 'v-#^6q@r4@lu*o%1$*c^7fpt8nl__*ac&oc1-of6)cwkdsp0#1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+# ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+ALLOWED_HOSTS = ['kvgarg-community.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -44,7 +47,22 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'django_distill',
+
+    'django.contrib.admin',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.auth',
+    'django.contrib.messages',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.gitlab',
 ]
+
+SITE_ID = 2
 
 LOGGING = {
     'version': 1,
@@ -62,7 +80,7 @@ LOGGING = {
     'handlers': {
         'communityHandler': {
             'class': 'logging.FileHandler',
-            'filename': './_site/community.log',
+            'filename': './logs/community.log',
             'formatter': 'standard',
             'filters': ['noDebugFilter'],
             'level': 'INFO'
@@ -84,12 +102,18 @@ LOGGING = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'community.urls'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_REDIRECT_URL = '/'
 
 TEMPLATES = [
     {
@@ -100,6 +124,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
@@ -108,12 +133,25 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(
+        default='postgres://zrnqpexriqncuk:bf3a9807a0cd315214c6aedc19f5296c5c5abebd082e40a856b96263f192c25e@ec2-107-20-230-70.compute-1.amazonaws.com:5432/dei5md2s5rgenf'
+    )
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 WSGI_APPLICATION = 'community.wsgi.application'
@@ -137,7 +175,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '_site/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = ['static/']
