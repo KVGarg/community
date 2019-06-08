@@ -32,6 +32,9 @@ def import_data(contributor):
     try:
         contributor['issues_opened'] = contributor.pop('issues')
         contributor['num_commits'] = contributor.pop('contributions')
+        contributor_location = contributor.get('location')
+        if contributor_location:
+            contributor['location'] = contributor_location
         contributor.pop('teams')
         c, create = Contributor.objects.get_or_create(
             **contributor
