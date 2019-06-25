@@ -13,9 +13,7 @@ class CreateOrgClusterMapAndActivityGraphTest(TestCase):
                                    location='{"latitude": 12.9,'
                                             '"longitude": 77.8}')
         Contributor.objects.create(login='testuser',
-                                   name='Test User 2',
-                                   location='{"latitude": 15.912,'
-                                            '"longitude": 90.821}')
+                                   name='Test User 2')
 
     def test_with_output_dir(self):
         org_cluster_map_handler()
