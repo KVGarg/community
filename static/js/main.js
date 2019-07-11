@@ -42,9 +42,9 @@ $(document).ready(function(){
 
     function manipulate_web_page_data(oauth_provider, http_response_text) {
         var json_data = JSON.parse(http_response_text);
-        if (json_data.valid) {
+        if (json_data.id) {
             Cookies.set('authenticated', true);
-            Cookies.set('username', json_data.user);
+            Cookies.set('username', json_data.userId);
             modify_html_elements('none', 'none','block', 'block');
         }
         else {
@@ -53,7 +53,7 @@ $(document).ready(function(){
     }
 
     function validate_user(oauth_provider, access_token){
-        var url = 'https://webservices.coala.io/'+ access_token +'/validate';
+        var url = 'https://jsonplaceholder.typicode.com/todos/1';
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
@@ -66,15 +66,19 @@ $(document).ready(function(){
 
     function login_with(oauth_provider){
         var authenticator = new netlify.default({});
-        authenticator.authenticate({provider:oauth_provider, scope: "user"},
-            function(err, data) {
-            if(err){
-                display_error_message(oauth_provider, err);
-            }
-            else {
-                validate_user(oauth_provider, data.token);
-            }
-        });
+        authenticator.authenticate(
+            {
+                provider:oauth_provider,
+                scope: oauth_provider==='github'?"user":"api"
+            }, function(err, data) {
+                if(err){
+                    display_error_message(oauth_provider, err);
+                }
+                else {
+                    console.log(data);
+                    validate_user(oauth_provider, data.token);
+                }
+            });
     }
 
     activate_dropdown();

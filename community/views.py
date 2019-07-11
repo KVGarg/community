@@ -76,8 +76,8 @@ class HomePageView(TemplateView):
 
         qod_data = qod.json()
         return {
-            'quote': qod_data['contents']['quotes'][0]['quote'],
-            'author': qod_data['contents']['quotes'][0]['author'],
+            'quote': 'It isn’t the mountains ahead to climb that wear you out; it’s the pebble in your shoe.',
+            'author': 'Mohamad Ali',
         }
 
     def get_top_meta_review_users(self, count):

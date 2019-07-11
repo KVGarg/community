@@ -22,7 +22,7 @@ def get_contrib_data():
         return
 
     data = response.json()
-    return data
+    return data[:800]
 
 
 def import_data(contributor):
